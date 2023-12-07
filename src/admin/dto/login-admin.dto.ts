@@ -23,6 +23,5 @@ export class LoginAdminDto {
   @IsNotEmpty()
   @IsString()
   @MinLength(6)
-  @IsStrongPassword()
   password: string;
 }

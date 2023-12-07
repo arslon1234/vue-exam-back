@@ -11,6 +11,7 @@ import * as bcrypt from 'bcrypt';
 
 import { JwtService } from '@nestjs/jwt';
 import { Admin } from './model/admin.model';
+import { LoginAdminDto } from './dto/login-admin.dto';
 
 @Injectable()
 export class AdminService {
@@ -54,6 +55,39 @@ export class AdminService {
       tokens,
     };
 
+    return response;
+  }
+
+  async signin(loginAdminDto: LoginAdminDto, res: Response) {
+    const admin = await this.adminRepository.findOne({
+      where: { login: loginAdminDto.login },
+    });
+    if (!admin) {
+      throw new BadRequestException('username or password is incorrect');
+    }
+    const isMatched = await bcrypt.compare(
+      loginAdminDto.password,
+      admin.password,
+    );
+    if (!isMatched) {
+      throw new BadRequestException('username or password is incorrect');
+    }
+
+    const tokens = await this.getTokens(admin);
+
+    const updatedAdmin = await this.updateRefreshToken(
+      admin.id,
+      tokens.refresh_token,
+    );
+    res.cookie('refresh_token', tokens.refresh_token, {
+      maxAge: 15 * 24 * 60 * 60 * 1000,
+      httpOnly: true,
+    });
+    const response = {
+      message: 'Admin logged in',
+      admin: updatedAdmin,
+      tokens,
+    };
     return response;
   }
 

@@ -1,5 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Column, DataType, Model, Table } from 'sequelize-typescript';
+import { Column, DataType, HasMany, Model, Table } from 'sequelize-typescript';
+import { Saved } from '../../saved/models/saved.model';
+import { BookView } from '../../book_view/models/book_view.model';
+import { BookComment } from '../../book_comment/models/book_comment.model';
+import { BookRating } from '../../book_rating/models/book_rating.model';
 
 interface UserAttrs {
   full_name: string;
@@ -61,4 +65,16 @@ export class User extends Model<User, UserAttrs> {
     type: DataType.STRING,
   })
   hashed_token: string;
+
+  @HasMany(() => Saved)
+  saved: Saved[];
+
+  @HasMany(() => BookView)
+  bookView: BookView[];
+
+  @HasMany(() => BookComment)
+  bookComment: BookComment[];
+
+  @HasMany(() => BookRating)
+  bookRating: BookRating[];
 }

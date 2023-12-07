@@ -20,11 +20,4 @@ export class CreateUserDto {
   @IsString()
   @MinLength(6)
   password: string;
-
-  @ApiProperty({
-    example: 'path/to/image.jpg',
-    description: 'User profile image path',
-  })
-  @IsString()
-  image: string;
 }

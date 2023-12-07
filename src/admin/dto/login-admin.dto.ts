@@ -13,7 +13,7 @@ export class LoginAdminDto {
     description: 'Admin login ',
   })
   @IsNotEmpty()
-  @IsEmail()
+  @IsString()
   login: string;
 
   @ApiProperty({

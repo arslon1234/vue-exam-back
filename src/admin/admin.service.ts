@@ -32,6 +32,7 @@ export class AdminService {
     const hashed_password = await bcrypt.hash(createAdminDto.password, 7);
     const newAdmin = await this.adminRepository.create({
       ...createAdminDto,
+      role: 'admin',
       password: hashed_password,
     });
 

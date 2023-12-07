@@ -11,6 +11,7 @@ import * as bcrypt from 'bcrypt';
 
 import { JwtService } from '@nestjs/jwt';
 import { Request, Response } from 'express';
+import { FilesService } from '../files/files.service';
 
 @Injectable()
 export class UserService {
@@ -18,8 +19,14 @@ export class UserService {
     @InjectModel(User)
     private userRepo: typeof User,
     private readonly jwtService: JwtService,
+    private fileService: FilesService,
   ) {}
-  async create(createUserDto: CreateUserDto, res: Response, req: Request) {
+  async create(
+    createUserDto: CreateUserDto,
+    res: Response,
+    req: Request,
+    image: any,
+  ) {
     const user = await this.userRepo.findOne({
       where: { login: createUserDto.login },
     });
@@ -30,11 +37,15 @@ export class UserService {
     }
 
     const hashed_password = await bcrypt.hash(createUserDto.password, 7);
+    const fileName = await this.fileService.createFile(image);
     const newUser = await this.userRepo.create({
       ...createUserDto,
       password: hashed_password,
+      image: fileName,
     });
-
+    if (!newUser) {
+      throw new BadRequestException('Error while creating');
+    }
     const tokens = await this.getTokens(newUser);
 
     const updatedUser = await this.updateRefreshToken(
@@ -135,7 +146,8 @@ export class UserService {
 
   async remove(id: number) {
     const user = await this.userRepo.findByPk(id);
-    if (user) {
+
+    if (!user) {
       throw new NotFoundException('User not found');
     }
     const deletedUser = await this.userRepo.destroy({

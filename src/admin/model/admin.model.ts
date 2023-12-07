@@ -9,7 +9,7 @@ interface AdminAttrs {
   hashed_token: string;
 }
 
-@Table({ tableName: 'admins' })
+@Table({ tableName: 'admins', timestamps: false })
 export class Admin extends Model<Admin, AdminAttrs> {
   @ApiProperty({ example: 1, description: 'Unique ID' })
   @Column({

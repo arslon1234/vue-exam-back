@@ -29,8 +29,8 @@ export class BookFilesController {
     @UploadedFiles()
     files: any,
   ) {
-    // console.log(createBookFileDto, doc_file);
-    // return this.bookFilesService.create(createBookFileDto, files,);
+    console.log('MANASHU', files);
+    return this.bookFilesService.create(createBookFileDto, files);
   }
 
   @Get()

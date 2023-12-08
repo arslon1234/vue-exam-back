@@ -33,13 +33,10 @@ export class CreateBookFileDto {
 
   @ApiProperty({ example: 300, description: 'Number of pages' })
   @IsNotEmpty()
-  @IsNumber()
-  @IsPositive()
   pages: number;
 
   @ApiProperty({ example: 2022, description: 'Year of publication' })
   @IsNotEmpty()
-  @IsNumber()
-  @Min(1000)
+  // @Min(1000)
   publish_year: number;
 }

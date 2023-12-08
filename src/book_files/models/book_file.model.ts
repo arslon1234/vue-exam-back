@@ -78,7 +78,7 @@ export class BookFile extends Model<BookFile, BookFilesAttrs> {
   })
   @Column({
     type: DataType.STRING,
-    allowNull: true,
+    allowNull: false,
   })
   pdf_file: string;
 

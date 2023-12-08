@@ -16,7 +16,7 @@ export class BookFilesService {
     private bookFileRepo: typeof BookFile,
     private fileService: FilesService,
   ) {}
-  async create(createBookFileDto: CreateBookFileDto, files: any, id: number) {
+  async create(createBookFileDto: CreateBookFileDto, files: any) {
     console.log(files);
     Object.defineProperties(createBookFileDto, {
       name: { enumerable: false },
@@ -39,7 +39,6 @@ export class BookFilesService {
       : null;
     const book_file = await this.bookFileRepo.create({
       ...createBookFileDto,
-      book_id: id,
       image: fileImage,
       pdf_file: filePdf,
       doc_file: fileDoc,

@@ -47,7 +47,6 @@ export class BookFile extends Model<BookFile, BookFilesAttrs> {
   @ApiProperty({ example: 'Chapter 1', description: 'File name' })
   @Column({
     type: DataType.STRING,
-    allowNull: false,
     unique: true,
   })
   second_name: string;

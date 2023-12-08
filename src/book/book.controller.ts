@@ -8,6 +8,7 @@ import {
   Delete,
   UploadedFiles,
   UseInterceptors,
+  Res,
 } from '@nestjs/common';
 import { BookService } from './book.service';
 import { CreateBookDto } from './dto/create-book.dto';
@@ -26,6 +27,7 @@ export class BookController {
   create(
     @Body() createBookDto: CreateBookDto,
     @UploadedFiles()
+    @Res({ passthrough: true })
     files: any,
   ) {
     console.log('controller');

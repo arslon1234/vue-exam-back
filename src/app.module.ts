@@ -33,6 +33,7 @@ import { BookFilesModule } from './book_files/book_files.module';
 import { BookFile } from './book_files/models/book_file.model';
 import { Category } from './category/models/category.model';
 import { BookCategory } from './book_category/models/book_category.model';
+import { ResponseLoggingMiddleware } from './middlewares/response-logging.middleware';
 
 @Module({
   imports: [
@@ -83,11 +84,11 @@ import { BookCategory } from './book_category/models/book_category.model';
   controllers: [],
   providers: [],
 })
-// export class AppModule implements NestModule {
-//   configure(consumer: MiddlewareConsumer) {
-//     // Apply the middleware to all routes
-//     // consumer.apply(ResponseLoggingMiddleware).forRoutes('*');
-//     consumer.apply(cookieParser()).forRoutes('*');
-//   }
-// }
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    // Apply the middleware to all routes
+    consumer.apply(ResponseLoggingMiddleware).forRoutes('*');
+    // consumer.apply(cookieParser()).forRoutes('*');
+  }
+}
+// export class AppModule {}

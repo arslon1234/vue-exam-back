@@ -27,7 +27,7 @@ export class CreateBookDto {
 
   @ApiProperty({ example: 1, description: 'Part number' })
   @IsNotEmpty()
-  @IsNumberString()
+  @IsNumber()
   part: number;
 
   @ApiProperty({ example: 'Introduction', description: 'File description' })

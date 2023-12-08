@@ -16,9 +16,12 @@ export class BookFilesService {
     private bookFileRepo: typeof BookFile,
     private fileService: FilesService,
   ) {}
-  async create(createBookFileDto: CreateBookFileDto, files: any) {
+  async create(createBookFileDto: CreateBookFileDto, files: any, id: number) {
     console.log(files);
-
+    Object.defineProperties(createBookFileDto, {
+      name: { enumerable: false },
+      author_id: { enumerable: false },
+    });
     const fileImage = await this.fileService.createFile(files['image']);
     // console.log(fileImage);
     const filePdf = await this.fileService.createFile(files['pdf']);
@@ -36,6 +39,7 @@ export class BookFilesService {
       : null;
     const book_file = await this.bookFileRepo.create({
       ...createBookFileDto,
+      book_id: id,
       image: fileImage,
       pdf_file: filePdf,
       doc_file: fileDoc,

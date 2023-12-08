@@ -9,5 +9,6 @@ import { FilesModule } from '../files/files.module';
   imports: [SequelizeModule.forFeature([BookFile]), FilesModule],
   controllers: [BookFilesController],
   providers: [BookFilesService],
+  exports: [BookFilesService],
 })
 export class BookFilesModule {}

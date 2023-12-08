@@ -28,6 +28,7 @@ export class BookController {
     @UploadedFiles()
     files: any,
   ) {
+    console.log('controller');
     return this.bookService.create(createBookDto, files);
   }
 

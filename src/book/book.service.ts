@@ -21,6 +21,7 @@ export class BookService {
     private fileService: FilesService,
   ) {}
   async create(createBookDto: CreateBookDto, files: any) {
+    console.log('keldi');
     const check = await this.bookRepo.findOne({
       where: { name: createBookDto.name },
     });
@@ -32,6 +33,7 @@ export class BookService {
     try {
       const book = await this.bookRepo.create(createBookDto);
       if (book) {
+        console.log('ochildi');
         const book_file = await this.bookFileService.create(
           { ...createBookDto, book_id: book.id },
           files,
@@ -39,6 +41,7 @@ export class BookService {
       } else {
         throw new InternalServerErrorException('Failed while creating');
       }
+      console.log('keldi');
       return book;
     } catch (error) {
       throw new InternalServerErrorException(error.message);

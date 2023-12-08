@@ -18,7 +18,7 @@ export class CreateBookFileDto {
   @ApiProperty({ example: 'Chapter 1', description: 'File name' })
   @IsNotEmpty()
   @IsString()
-  name: string;
+  second_name: string;
 
   @ApiProperty({ example: 1, description: 'Part number' })
   @IsNotEmpty()

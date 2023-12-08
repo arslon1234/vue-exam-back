@@ -30,7 +30,7 @@ export class BookFilesController {
     files: any,
   ) {
     // console.log(createBookFileDto, doc_file);
-    return this.bookFilesService.create(createBookFileDto, files);
+    // return this.bookFilesService.create(createBookFileDto, files,);
   }
 
   @Get()

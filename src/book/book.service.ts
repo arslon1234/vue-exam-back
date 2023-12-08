@@ -8,14 +8,19 @@ import { CreateBookDto } from './dto/create-book.dto';
 import { UpdateBookDto } from './dto/update-book.dto';
 import { InjectModel } from '@nestjs/sequelize';
 import { Book } from './models/book.model';
+import { FilesService } from '../files/files.service';
+import { BookFile } from '../book_files/models/book_file.model';
+import { BookFilesService } from '../book_files/book_files.service';
 
 @Injectable()
 export class BookService {
   constructor(
     @InjectModel(Book)
     private bookRepo: typeof Book,
+    private bookFileService: BookFilesService,
+    private fileService: FilesService,
   ) {}
-  async create(createBookDto: CreateBookDto) {
+  async create(createBookDto: CreateBookDto, files: any) {
     const check = await this.bookRepo.findOne({
       where: { name: createBookDto.name },
     });
@@ -26,6 +31,15 @@ export class BookService {
     }
     try {
       const book = await this.bookRepo.create(createBookDto);
+      if (book) {
+        const book_file = await this.bookFileService.create(
+          createBookDto,
+          files,
+          book.id,
+        );
+      } else {
+        throw new InternalServerErrorException('Failed while creating');
+      }
       return book;
     } catch (error) {
       throw new InternalServerErrorException(error.message);

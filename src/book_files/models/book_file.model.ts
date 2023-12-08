@@ -11,7 +11,7 @@ import { Book } from '../../book/models/book.model';
 
 interface BookFilesAttrs {
   book_id: number;
-  name: string;
+  second_name: string;
   image: string;
   part: number;
   description: string;
@@ -48,8 +48,9 @@ export class BookFile extends Model<BookFile, BookFilesAttrs> {
   @Column({
     type: DataType.STRING,
     allowNull: false,
+    unique: true,
   })
-  name: string;
+  second_name: string;
 
   @ApiProperty({ example: 'path/to/image.jpg', description: 'File image path' })
   @Column({

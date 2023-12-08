@@ -22,20 +22,21 @@ export class BookFilesService {
       name: { enumerable: false },
       author_id: { enumerable: false },
     });
-    const fileImage = await this.fileService.createFile(files['image']);
+
+    const fileImage = await this.fileService.createFile(files.image);
     // console.log(fileImage);
-    const filePdf = await this.fileService.createFile(files['pdf']);
+    const filePdf = await this.fileService.createFile(files.pdf);
     const fileDoc = files['doc']
-      ? await this.fileService.createFile(files['doc'])
+      ? await this.fileService.createFile(files.doc)
       : null;
     const fileDocx = files['docx']
-      ? await this.fileService.createFile(files['docx'])
+      ? await this.fileService.createFile(files.docx)
       : null;
     const fileEpub = files['epub']
-      ? await this.fileService.createFile(files['epub'])
+      ? await this.fileService.createFile(files.epub)
       : null;
     const fileAudio = files['audio']
-      ? await this.fileService.createFile(files['audio'])
+      ? await this.fileService.createFile(files.audio)
       : null;
     const book_file = await this.bookFileRepo.create({
       ...createBookFileDto,

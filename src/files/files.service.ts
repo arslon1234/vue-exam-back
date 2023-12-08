@@ -11,7 +11,6 @@ import * as fs from 'fs';
 @Injectable()
 export class FilesService {
   async createFile(file: any): Promise<string> {
-
     const file_types = [
       'jpg',
       'jpeg',

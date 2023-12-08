@@ -17,40 +17,40 @@ export class BookFilesService {
     private fileService: FilesService,
   ) {}
   async create(createBookFileDto: CreateBookFileDto, files: any) {
-    console.log(files);
+    // console.log(files);
     Object.defineProperties(createBookFileDto, {
       name: { enumerable: false },
       author_id: { enumerable: false },
     });
 
-    const fileImage = await this.fileService.createFile(files.image);
-    // console.log(fileImage);
-    const filePdf = await this.fileService.createFile(files.pdf);
+    const fileImage = await this.fileService.createFile(files[0]);
+    console.log('nma gpa', files);
+    const filePdf = await this.fileService.createFile(files[1]);
     const fileDoc = files['doc']
-      ? await this.fileService.createFile(files.doc)
+      ? await this.fileService.createFile(files[2])
       : null;
-    const fileDocx = files['docx']
-      ? await this.fileService.createFile(files.docx)
-      : null;
-    const fileEpub = files['epub']
-      ? await this.fileService.createFile(files.epub)
-      : null;
-    const fileAudio = files['audio']
-      ? await this.fileService.createFile(files.audio)
-      : null;
-    const book_file = await this.bookFileRepo.create({
-      ...createBookFileDto,
-      image: fileImage,
-      pdf_file: filePdf,
-      doc_file: fileDoc,
-      docx_file: fileDocx,
-      epub_file: fileEpub,
-      audio_file: fileAudio,
-    });
-    if (!book_file) {
-      throw new BadRequestException('Error while creating');
-    }
-    return book_file;
+    // const fileDocx = files['docx']
+    //   ? await this.fileService.createFile(files[3])
+    //   : null;
+    // const fileEpub = files['epub']
+    //   ? await this.fileService.createFile(files[4])
+    //   : null;
+    // const fileAudio = files['audio']
+    //   ? await this.fileService.createFile(files[0].audio)
+    //   : null;
+    // const book_file = await this.bookFileRepo.create({
+    //   ...createBookFileDto,
+    //   image: fileImage,
+    //   pdf_file: filePdf,
+    //   doc_file: fileDoc,
+    //   docx_file: fileDocx,
+    //   epub_file: fileEpub,
+    //   audio_file: fileAudio,
+    // });
+    // if (!book_file) {
+    //   throw new BadRequestException('Error while creating');
+    // }
+    // return book_file;
   }
 
   async findAll(): Promise<BookFile[]> {

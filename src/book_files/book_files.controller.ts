@@ -29,7 +29,7 @@ export class BookFilesController {
     @UploadedFiles()
     files: any,
   ) {
-    console.log('MANASHU', files);
+    // console.log('MANASHU', files);
     return this.bookFilesService.create(createBookFileDto, files);
   }
 

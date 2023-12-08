@@ -21,7 +21,6 @@ export class FilesService {
       'octet-stream',
       'mpeg',
     ];
-    console.log(file.mimetype.split('/')[1]);
     if (file_types.includes(file.mimetype.split('/')[1])) {
     } else {
       throw new BadRequestException('File with such type not allowed');

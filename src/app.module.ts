@@ -84,11 +84,11 @@ import { ResponseLoggingMiddleware } from './middlewares/response-logging.middle
   controllers: [],
   providers: [],
 })
-export class AppModule implements NestModule {
-  configure(consumer: MiddlewareConsumer) {
-    // Apply the middleware to all routes
-    consumer.apply(ResponseLoggingMiddleware).forRoutes('*');
-    // consumer.apply(cookieParser()).forRoutes('*');
-  }
-}
-// export class AppModule {}
+// export class AppModule implements NestModule {
+//   configure(consumer: MiddlewareConsumer) {
+//     // Apply the middleware to all routes
+//     // consumer.apply(ResponseLoggingMiddleware).forRoutes('*');
+//     consumer.apply(cookieParser()).forRoutes('*');
+//   }
+// }
+export class AppModule {}

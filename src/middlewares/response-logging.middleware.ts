@@ -12,7 +12,7 @@ export class ResponseLoggingMiddleware implements NestMiddleware {
 
     // if (!req.cookies['session']) res.cookie('session', 'yozildi');
 
-    console.log('req KELDI', req);
+    // console.log('req KELDI', req);
 
     // console.log('response', res);
     // You can also modify the response if needed

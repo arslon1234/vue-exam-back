@@ -14,7 +14,10 @@ import { BookService } from './book.service';
 import { CreateBookDto } from './dto/create-book.dto';
 import { UpdateBookDto } from './dto/update-book.dto';
 import { ApiBearerAuth } from '@nestjs/swagger';
-import { FilesInterceptor } from '@nestjs/platform-express';
+import {
+  FileFieldsInterceptor,
+  FilesInterceptor,
+} from '@nestjs/platform-express';
 import { BookFilesService } from '../book_files/book_files.service';
 
 @Controller('book')
@@ -23,14 +26,28 @@ export class BookController {
   constructor(private readonly bookService: BookService) {}
 
   @Post()
-  @UseInterceptors(FilesInterceptor('files'))
+  @UseInterceptors(
+    FileFieldsInterceptor([
+      { name: 'image', maxCount: 1 },
+      { name: 'pdf', maxCount: 1 },
+      { name: 'doc', maxCount: 1 },
+      { name: 'docx', maxCount: 1 },
+      { name: 'epub', maxCount: 1 },
+      { name: 'audio', maxCount: 1 },
+    ]),
+  )
   create(
     @Body() createBookDto: CreateBookDto,
     @UploadedFiles()
-    @Res({ passthrough: true })
-    files: any,
+    files: {
+      image?: any;
+      pdf?: any;
+      doc?: any;
+      docx?: any;
+      epub?: any;
+      audio?: any;
+    },
   ) {
-    console.log('controller');
     return this.bookService.create(createBookDto, files);
   }
 

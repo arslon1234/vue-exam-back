@@ -88,6 +88,7 @@ export class BookFile extends Model<BookFile, BookFilesAttrs> {
   })
   @Column({
     type: DataType.STRING,
+    allowNull: true,
   })
   epub_file: string;
 
@@ -97,6 +98,7 @@ export class BookFile extends Model<BookFile, BookFilesAttrs> {
   })
   @Column({
     type: DataType.STRING,
+    allowNull: true,
   })
   doc_file: string;
 
@@ -106,6 +108,7 @@ export class BookFile extends Model<BookFile, BookFilesAttrs> {
   })
   @Column({
     type: DataType.STRING,
+    allowNull: true,
   })
   docx_file: string;
 
@@ -115,6 +118,7 @@ export class BookFile extends Model<BookFile, BookFilesAttrs> {
   })
   @Column({
     type: DataType.STRING,
+    allowNull: true,
   })
   audio_file: string;
 

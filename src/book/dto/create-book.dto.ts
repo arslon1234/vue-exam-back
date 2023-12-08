@@ -17,7 +17,7 @@ export class CreateBookDto {
 
   @ApiProperty({ example: 1, description: 'Author ID' })
   @IsNotEmpty()
-  @IsNumber()
+
   author_id: number;
 
   @ApiProperty({ example: 'Chapter 1', description: 'File name' })
@@ -27,7 +27,7 @@ export class CreateBookDto {
 
   @ApiProperty({ example: 1, description: 'Part number' })
   @IsNotEmpty()
-  @IsNumber()
+
   part: number;
 
   @ApiProperty({ example: 'Introduction', description: 'File description' })
@@ -38,13 +38,13 @@ export class CreateBookDto {
 
   @ApiProperty({ example: 300, description: 'Number of pages' })
   @IsNotEmpty()
-  @IsNumber()
+
   @IsPositive()
   pages: number;
 
   @ApiProperty({ example: 2022, description: 'Year of publication' })
   @IsNotEmpty()
-  @IsNumber()
+
   @Min(1000)
   publish_year: number;
 }

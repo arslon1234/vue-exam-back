@@ -83,11 +83,11 @@ import { BookCategory } from './book_category/models/book_category.model';
   controllers: [],
   providers: [],
 })
-export class AppModule implements NestModule {
-  configure(consumer: MiddlewareConsumer) {
-    // Apply the middleware to all routes
-    // consumer.apply(ResponseLoggingMiddleware).forRoutes('*');
-    consumer.apply(cookieParser()).forRoutes('*');
-  }
-}
-// export class AppModule {}
+// export class AppModule implements NestModule {
+//   configure(consumer: MiddlewareConsumer) {
+//     // Apply the middleware to all routes
+//     // consumer.apply(ResponseLoggingMiddleware).forRoutes('*');
+//     consumer.apply(cookieParser()).forRoutes('*');
+//   }
+// }
+export class AppModule {}

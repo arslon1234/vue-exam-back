@@ -19,12 +19,20 @@ import {
   FilesInterceptor,
 } from '@nestjs/platform-express';
 import { BookFilesService } from '../book_files/book_files.service';
+import { ApiTags, ApiOperation, ApiConsumes, ApiBody } from '@nestjs/swagger';
 
+@ApiTags('books')
 @Controller('book')
 @ApiBearerAuth()
 export class BookController {
   constructor(private readonly bookService: BookService) {}
 
+  @ApiOperation({ summary: 'Create a new book with files' })
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    description: 'Book data with image, pdf, doc, docx, epub, and audio files',
+    // Include the appropriate DTO and file upload fields structure
+  })
   @Post()
   @UseInterceptors(
     FileFieldsInterceptor([
@@ -51,21 +59,25 @@ export class BookController {
     return this.bookService.create(createBookDto, files);
   }
 
+  @ApiOperation({ summary: 'Get all books' })
   @Get()
   findAll() {
     return this.bookService.findAll();
   }
 
+  @ApiOperation({ summary: 'Get a book by ID' })
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.bookService.findOne(+id);
   }
 
+  @ApiOperation({ summary: 'Update a book by ID' })
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateBookDto: UpdateBookDto) {
     return this.bookService.update(+id, updateBookDto);
   }
 
+  @ApiOperation({ summary: 'Delete a book by ID' })
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.bookService.remove(+id);

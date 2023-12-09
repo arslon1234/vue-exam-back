@@ -9,10 +9,10 @@ const start = async () => {
   try {
     const config = new DocumentBuilder()
       .addBearerAuth()
-      .setTitle('E-Ashyo shop')
-      .setDescription('Project for E-Ashyo shop')
+      .setTitle('E-Book')
+      .setDescription('Project for E-Book')
       .setVersion('1.0.0')
-      .addTag('NodeJs, NestJS, Postgress, Sequielize, JWT, OTP, Swagger')
+      .addTag('NodeJs, NestJS, Postgress, Sequielize, JWT,  Swagger')
       .build();
 
     const PORT = process.env.PORT || 3333;

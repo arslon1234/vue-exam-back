@@ -57,7 +57,7 @@ export class BookService {
 
   async findOne(id: number): Promise<Book> {
     const check = await this.bookRepo.findByPk(id);
-    if (check) {
+    if (!check) {
       throw new NotFoundException('Book not found');
     }
     const book = await this.bookRepo.findOne({

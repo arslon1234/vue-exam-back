@@ -36,7 +36,7 @@ export class FilesService {
         });
       }
       fs.writeFileSync(path.join(filePath, fileName), file.buffer);
-      return `http://localhost:3000/api/media/${fileName}`;
+      return `http://${process.env.API_HOST}:3000/api/media/${fileName}`;
     } catch (error) {
       throw new BadRequestException(error.message);
     }

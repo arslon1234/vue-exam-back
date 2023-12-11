@@ -48,6 +48,7 @@ export class BookFile extends Model<BookFile, BookFilesAttrs> {
   @Column({
     type: DataType.STRING,
     unique: true,
+    allowNull: true,
   })
   second_name: string;
 

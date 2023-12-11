@@ -34,8 +34,8 @@ export class BookFilesController {
   @ApiOperation({ summary: 'Create a new book file' })
   @ApiConsumes('multipart/form-data')
   @ApiBody({
-    description: 'Upload book files',
-    // You should specify the structure of the body if it's not straightforward
+    description: 'Book data with image, pdf, doc, docx, epub, and audio files',
+    type: CreateBookFileDto,
   })
   @Post()
   @UseInterceptors(FilesInterceptor('files'))

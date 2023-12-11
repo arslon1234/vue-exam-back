@@ -31,7 +31,7 @@ export class BookController {
   @ApiConsumes('multipart/form-data')
   @ApiBody({
     description: 'Book data with image, pdf, doc, docx, epub, and audio files',
-    // Include the appropriate DTO and file upload fields structure
+    type: CreateBookDto,
   })
   @Post()
   @UseInterceptors(

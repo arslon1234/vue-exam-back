@@ -51,5 +51,5 @@ export class Author extends Model<Author, AuthorAttrs> {
   image: string;
 
   @HasMany(() => Book)
-  author: Book[];
+  books: Book[];
 }

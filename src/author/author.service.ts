@@ -77,7 +77,7 @@ export class AuthorService {
 
   async remove(id: number) {
     const author = await this.authorRepo.findByPk(id);
-    if (author) {
+    if (!author) {
       throw new NotFoundException('Author not found');
     }
     const deletedAuthor = await this.authorRepo.destroy({

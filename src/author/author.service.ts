@@ -47,7 +47,7 @@ export class AuthorService {
 
   async findOne(id: number): Promise<Author> {
     const check = await this.authorRepo.findByPk(id);
-    if (check) {
+    if (!check) {
       throw new NotFoundException('Author not found');
     }
     const author = await this.authorRepo.findOne({

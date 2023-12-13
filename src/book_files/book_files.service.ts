@@ -43,6 +43,7 @@ export class BookFilesService {
     const fileAudio = files.audio?.length
       ? await this.fileService.createFile(files.audio[0])
       : '';
+
     const book_file = await this.bookFileRepo.create({
       ...createBookFileDto,
       image: fileImage,

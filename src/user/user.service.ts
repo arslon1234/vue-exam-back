@@ -21,12 +21,7 @@ export class UserService {
     private readonly jwtService: JwtService,
     private fileService: FilesService,
   ) {}
-  async create(
-    createUserDto: CreateUserDto,
-    res: Response,
-    req: Request,
-    image: any,
-  ) {
+  async create(createUserDto: CreateUserDto, res: Response, image: any) {
     const user = await this.userRepo.findOne({
       where: { login: createUserDto.login },
     });

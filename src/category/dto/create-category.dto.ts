@@ -15,8 +15,6 @@ export class CreateCategoryDto {
   category_name: string;
 
   @ApiProperty({ example: 1, description: 'Parent category ID' })
-  @IsNumber()
-  @IsPositive()
   parent_category_id: number | null;
 
   @ApiProperty({ example: true, description: 'Category status' })

@@ -38,7 +38,7 @@ export class CategoryService {
 
   async findOne(id: number): Promise<Category> {
     const check = await this.categoryRepo.findByPk(id);
-    if (check) {
+    if (!check) {
       throw new NotFoundException('Not found');
     }
     const category = await this.categoryRepo.findOne({
@@ -56,7 +56,7 @@ export class CategoryService {
       id: { enumerable: false },
     });
     const category = await this.categoryRepo.findByPk(id);
-    if (category) {
+    if (!category) {
       throw new NotFoundException('Category not found');
     }
     const updatedSaved = await this.categoryRepo.update(updateCategoryDto, {
@@ -68,7 +68,7 @@ export class CategoryService {
 
   async remove(id: number) {
     const category = await this.categoryRepo.findByPk(id);
-    if (category) {
+    if (!category) {
       throw new NotFoundException('Not found');
     }
     const deletedSaved = await this.categoryRepo.destroy({

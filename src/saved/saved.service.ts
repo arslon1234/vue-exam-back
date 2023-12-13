@@ -39,7 +39,7 @@ export class SavedService {
 
   async findOne(id: number): Promise<Saved> {
     const check = await this.savedRepo.findByPk(id);
-    if (check) {
+    if (!check) {
       throw new NotFoundException('Not found');
     }
     const saved = await this.savedRepo.findOne({
@@ -57,7 +57,7 @@ export class SavedService {
       id: { enumerable: false },
     });
     const saved = await this.savedRepo.findByPk(id);
-    if (saved) {
+    if (!saved) {
       throw new NotFoundException('Saved not found');
     }
     const updatedSaved = await this.savedRepo.update(updateSavedDto, {
@@ -69,7 +69,7 @@ export class SavedService {
 
   async remove(id: number) {
     const saved = await this.savedRepo.findByPk(id);
-    if (saved) {
+    if (!saved) {
       throw new NotFoundException('Not found');
     }
     const deletedSaved = await this.savedRepo.destroy({

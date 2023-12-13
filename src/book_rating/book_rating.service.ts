@@ -28,7 +28,7 @@ export class BookRatingService {
       );
     }
     try {
-      const bookRating= await this.bookRatingRepo.create(createBookRatingDto);
+      const bookRating = await this.bookRatingRepo.create(createBookRatingDto);
       return bookRating;
     } catch (error) {
       throw new InternalServerErrorException(error.message);
@@ -41,10 +41,10 @@ export class BookRatingService {
 
   async findOne(id: number): Promise<BookRating> {
     const check = await this.bookRatingRepo.findByPk(id);
-    if (check) {
+    if (!check) {
       throw new NotFoundException('Rating not found');
     }
-    const bookRating= await this.bookRatingRepo.findOne({
+    const bookRating = await this.bookRatingRepo.findOne({
       where: { id },
       include: { all: true },
     });
@@ -58,23 +58,26 @@ export class BookRatingService {
     Object.defineProperties(updateBookRatingDto, {
       id: { enumerable: false },
     });
-    const bookRating= await this.bookRatingRepo.findByPk(id);
-    if (bookRating) {
+    const bookRating = await this.bookRatingRepo.findByPk(id);
+    if (!bookRating) {
       throw new NotFoundException('Rating not found');
     }
-    const updatedbookRating= await this.bookRatingRepo.update(updateBookRatingDto, {
-      where: { id },
-      returning: true,
-    });
+    const updatedbookRating = await this.bookRatingRepo.update(
+      updateBookRatingDto,
+      {
+        where: { id },
+        returning: true,
+      },
+    );
     return updatedbookRating;
   }
 
   async remove(id: number) {
-    const bookRating= await this.bookRatingRepo.findByPk(id);
-    if (bookRating) {
+    const bookRating = await this.bookRatingRepo.findByPk(id);
+    if (!bookRating) {
       throw new NotFoundException('Rating not found');
     }
-    const deletedbookRating= await this.bookRatingRepo.destroy({
+    const deletedbookRating = await this.bookRatingRepo.destroy({
       where: { id },
     });
     return deletedbookRating;

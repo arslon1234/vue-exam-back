@@ -65,7 +65,7 @@ export class AuthorService {
       id: { enumerable: false },
     });
     const author = await this.authorRepo.findByPk(id);
-    if (author) {
+    if (!author) {
       throw new NotFoundException('Author not found');
     }
     const updatedAuthor = await this.authorRepo.update(updateAuthorDto, {

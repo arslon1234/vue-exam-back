@@ -138,7 +138,7 @@ export class AdminService {
 
   async findOne(id: number): Promise<Admin> {
     const check = await this.adminRepository.findByPk(id);
-    if (check) {
+    if (!check) {
       throw new NotFoundException('Admin not found');
     }
     const admin = await this.adminRepository.findOne({
@@ -158,7 +158,7 @@ export class AdminService {
       id: { enumerable: false },
     });
     const admin = await this.adminRepository.findByPk(id);
-    if (admin) {
+    if (!admin) {
       throw new NotFoundException('Admin not found');
     }
     const updatedAdmin = await this.adminRepository.update(updateAdminDto, {
@@ -170,7 +170,7 @@ export class AdminService {
 
   async remove(id: number) {
     const admin = await this.adminRepository.findByPk(id);
-    if (admin) {
+    if (!admin) {
       throw new NotFoundException('Admin not found');
     }
     const deletedAdmin = await this.adminRepository.destroy({

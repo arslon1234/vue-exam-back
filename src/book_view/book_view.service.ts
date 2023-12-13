@@ -40,7 +40,7 @@ export class BookViewService {
 
   async findOne(id: number): Promise<BookView> {
     const check = await this.bookViewRepo.findByPk(id);
-    if (check) {
+    if (!check) {
       throw new NotFoundException('Not found');
     }
     const book_viewd = await this.bookViewRepo.findOne({
@@ -58,7 +58,7 @@ export class BookViewService {
       id: { enumerable: false },
     });
     const book_viewd = await this.bookViewRepo.findByPk(id);
-    if (book_viewd) {
+    if (!book_viewd) {
       throw new NotFoundException('BookView not found');
     }
     const updatedBookViewd = await this.bookViewRepo.update(updateBookViewDto, {
@@ -70,7 +70,7 @@ export class BookViewService {
 
   async remove(id: number) {
     const book_viewd = await this.bookViewRepo.findByPk(id);
-    if (book_viewd) {
+    if (!book_viewd) {
       throw new NotFoundException('Not found');
     }
     const deletedBookView = await this.bookViewRepo.destroy({

@@ -75,7 +75,7 @@ export class BookService {
       id: { enumerable: false },
     });
     const book = await this.bookRepo.findByPk(id);
-    if (book) {
+    if (!book) {
       throw new NotFoundException('Book not found');
     }
     const updatedBook = await this.bookRepo.update(updateBookDto, {
@@ -87,7 +87,7 @@ export class BookService {
 
   async remove(id: number) {
     const book = await this.bookRepo.findByPk(id);
-    if (book) {
+    if (!book) {
       throw new NotFoundException('Book not found');
     }
     const deletedBook = await this.bookRepo.destroy({

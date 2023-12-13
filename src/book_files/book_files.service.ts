@@ -64,7 +64,7 @@ export class BookFilesService {
 
   async findOne(id: number): Promise<BookFile> {
     const check = await this.bookFileRepo.findByPk(id);
-    if (check) {
+    if (!check) {
       throw new NotFoundException('Book not found');
     }
     const book = await this.bookFileRepo.findOne({
@@ -82,7 +82,7 @@ export class BookFilesService {
       id: { enumerable: false },
     });
     const book = await this.bookFileRepo.findByPk(id);
-    if (book) {
+    if (!book) {
       throw new NotFoundException('Book not found');
     }
     const updatedBook = await this.bookFileRepo.update(updateBookFileDto, {
@@ -94,7 +94,7 @@ export class BookFilesService {
 
   async remove(id: number) {
     const book = await this.bookFileRepo.findByPk(id);
-    if (book) {
+    if (!book) {
       throw new NotFoundException('Book not found');
     }
     const deletedBook = await this.bookFileRepo.destroy({

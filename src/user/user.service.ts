@@ -114,7 +114,7 @@ export class UserService {
 
   async findOne(id: number): Promise<User> {
     const check = await this.userRepo.findByPk(id);
-    if (check) {
+    if (!check) {
       throw new NotFoundException('User not found');
     }
     const user = await this.userRepo.findOne({
@@ -134,7 +134,7 @@ export class UserService {
       id: { enumerable: false },
     });
     const user = await this.userRepo.findByPk(id);
-    if (user) {
+    if (!user) {
       throw new NotFoundException('User not found');
     }
     const updatedUser = await this.userRepo.update(updateUserDto, {

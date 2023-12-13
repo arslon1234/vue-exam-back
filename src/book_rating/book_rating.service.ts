@@ -41,7 +41,7 @@ export class BookRatingService {
 
   async findOne(id: number): Promise<BookRating> {
     const check = await this.bookRatingRepo.findByPk(id);
-    if (check) {
+    if (!check) {
       throw new NotFoundException('Rating not found');
     }
     const bookRating= await this.bookRatingRepo.findOne({
@@ -59,7 +59,7 @@ export class BookRatingService {
       id: { enumerable: false },
     });
     const bookRating= await this.bookRatingRepo.findByPk(id);
-    if (bookRating) {
+    if (!bookRating) {
       throw new NotFoundException('Rating not found');
     }
     const updatedbookRating= await this.bookRatingRepo.update(updateBookRatingDto, {
@@ -71,7 +71,7 @@ export class BookRatingService {
 
   async remove(id: number) {
     const bookRating= await this.bookRatingRepo.findByPk(id);
-    if (bookRating) {
+    if (!bookRating) {
       throw new NotFoundException('Rating not found');
     }
     const deletedbookRating= await this.bookRatingRepo.destroy({

@@ -47,7 +47,7 @@ export class UserController {
     @UploadedFile()
     image: any,
   ) {
-    return this.userService.create(createUserDto, res, req, image);
+    return this.userService.create(createUserDto, res, image);
   }
 
   @ApiOperation({ summary: 'Get all users' })

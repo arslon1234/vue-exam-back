@@ -58,7 +58,11 @@ export class BookRatingService {
     Object.defineProperties(updateBookRatingDto, {
       id: { enumerable: false },
     });
+
+
+
     const bookRating = await this.bookRatingRepo.findByPk(id);
+
     if (!bookRating) {
       throw new NotFoundException('Rating not found');
     }
@@ -73,7 +77,11 @@ export class BookRatingService {
   }
 
   async remove(id: number) {
+
+
+
     const bookRating = await this.bookRatingRepo.findByPk(id);
+
     if (!bookRating) {
       throw new NotFoundException('Rating not found');
     }

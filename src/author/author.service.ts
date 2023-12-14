@@ -9,6 +9,8 @@ import { UpdateAuthorDto } from './dto/update-author.dto';
 import { InjectModel } from '@nestjs/sequelize';
 import { Author } from './models/author.model';
 import { FilesService } from '../files/files.service';
+import { Book } from '../book/models/book.model';
+import { BookFile } from '../book_files/models/book_file.model';
 
 @Injectable()
 export class AuthorService {
@@ -52,7 +54,18 @@ export class AuthorService {
     }
     const author = await this.authorRepo.findOne({
       where: { id },
-      include: { all: true },
+      include: [
+        {
+          model: Book,
+          attributes: { exclude: ['createdAt', 'updatedAt'] },
+          include: [
+            {
+              model: BookFile,
+              attributes: { exclude: ['createdAt', 'updatedAt'] },
+            },
+          ],
+        },
+      ],
     });
     return author;
   }

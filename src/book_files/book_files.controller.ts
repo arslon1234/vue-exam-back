@@ -55,6 +55,7 @@ export class BookFilesController {
     type: FileUploadDto,
   })
   @Post('upload-file')
+  @UseInterceptors(FileInterceptor('file'))
   @HttpCode(HttpStatus.CREATED)
   uploadImage(
     @UploadedFile()

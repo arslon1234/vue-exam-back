@@ -32,16 +32,10 @@ export class BookService {
     try {
       const book = await this.bookRepo.create(createBookDto);
       if (book) {
-        const book_file = await this.bookFileService.create(
-          {
-            ...createBookDto,
-            book_id: book.id,
-            pages: +createBookDto.pages,
-            publish_year: +createBookDto.publish_year,
-            part: +createBookDto.part,
-          },
-          files,
-        );
+        const book_file = await this.bookFileService.create({
+          ...createBookDto,
+          book_id: book.id,
+        });
       } else {
         throw new InternalServerErrorException('Failed while creating');
       }

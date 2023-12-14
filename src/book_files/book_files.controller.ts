@@ -47,7 +47,7 @@ export class BookFilesController {
     @UploadedFiles()
     files: any,
   ) {
-    return this.bookFilesService.create(createBookFileDto, files);
+    return this.bookFilesService.create(createBookFileDto);
   }
 
   @ApiOperation({ summary: 'Get uploaded file url' })

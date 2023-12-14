@@ -41,4 +41,22 @@ export class CreateBookDto {
   @ApiProperty({ example: 2022, description: 'Year of publication' })
   @IsNotEmpty()
   publish_year: number;
+
+  @ApiProperty({ example: '/src/photo', description: 'image' })
+  image: string;
+
+  @ApiProperty({ example: '/http://123.23.4.32/pdf', description: 'pdf' })
+  pdf_file: string;
+
+  @ApiProperty({ example: '/http://123.23.4.32/epub', description: 'epub' })
+  epub_file: string;
+
+  @ApiProperty({ example: '/http://123.23.4.32/doc', description: 'doc' })
+  doc_file: string;
+
+  @ApiProperty({ example: '/http://123.23.4.32/docx', description: 'docx' })
+  docx_file: string;
+
+  @ApiProperty({ example: '/http://123.23.4.32/audio', description: 'audio' })
+  audio_file: string;
 }

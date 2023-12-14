@@ -18,7 +18,7 @@ export class BookFilesService {
     private bookFileRepo: typeof BookFile,
     private fileService: FilesService,
   ) {}
-  async create(createBookFileDto: CreateBookFileDto, files: any) {
+  async create(createBookFileDto: CreateBookFileDto) {
     // Object.defineProperties(createBookFileDto, {
     //   name: { enumerable: false },
     //   author_id: { enumerable: false },

@@ -10,6 +10,8 @@ import {
   UploadedFile,
   UnsupportedMediaTypeException,
   UploadedFiles,
+  HttpCode,
+  HttpStatus,
 } from '@nestjs/common';
 import { BookFilesService } from './book_files.service';
 import { CreateBookFileDto } from './dto/create-book_file.dto';
@@ -24,6 +26,7 @@ import {
   ApiBody,
   ApiParam,
 } from '@nestjs/swagger';
+import { FileUploadDto } from './dto/file-upload.dto';
 
 @ApiTags('book-files')
 @Controller('book-files')
@@ -45,6 +48,16 @@ export class BookFilesController {
     files: any,
   ) {
     return this.bookFilesService.create(createBookFileDto, files);
+  }
+
+  @ApiOperation({ summary: 'Get uploaded file url' })
+  @Post('upload-file')
+  @HttpCode(HttpStatus.CREATED)
+  uploadImage(
+    @UploadedFile()
+    file: FileUploadDto,
+  ) {
+    return this.bookFilesService.uploadFile(file);
   }
 
   @ApiOperation({ summary: 'Get all book files' })

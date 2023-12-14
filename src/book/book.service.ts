@@ -70,6 +70,7 @@ export class BookService {
   async update(
     id: number,
     updateBookDto: UpdateBookDto,
+    files: any,
   ): Promise<[number, Book[]]> {
     Object.defineProperties(updateBookDto, {
       id: { enumerable: false },
@@ -82,6 +83,20 @@ export class BookService {
       where: { id },
       returning: true,
     });
+    if (updatedBook) {
+      const book_file = await this.bookFileService.update(
+        updateBookDto.file_id,
+        {
+          ...updateBookDto,
+          pages: +updateBookDto.pages,
+          publish_year: +updateBookDto.publish_year,
+          part: +updateBookDto.part,
+        },
+        files,
+      );
+    } else {
+      throw new InternalServerErrorException('Failed while creating');
+    }
     return updatedBook;
   }
 

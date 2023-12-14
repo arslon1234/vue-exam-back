@@ -73,8 +73,30 @@ export class BookController {
 
   @ApiOperation({ summary: 'Update a book by ID' })
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateBookDto: UpdateBookDto) {
-    return this.bookService.update(+id, updateBookDto);
+  @UseInterceptors(
+    FileFieldsInterceptor([
+      { name: 'image', maxCount: 1 },
+      { name: 'pdf', maxCount: 1 },
+      { name: 'doc', maxCount: 1 },
+      { name: 'docx', maxCount: 1 },
+      { name: 'epub', maxCount: 1 },
+      { name: 'audio', maxCount: 1 },
+    ]),
+  )
+  update(
+    @Param('id') id: string,
+    @Body() updateBookDto: UpdateBookDto,
+    @UploadedFiles()
+    files: {
+      image?: any;
+      pdf?: any;
+      doc?: any;
+      docx?: any;
+      epub?: any;
+      audio?: any;
+    },
+  ) {
+    return this.bookService.update(+id, updateBookDto,files);
   }
 
   @ApiOperation({ summary: 'Delete a book by ID' })

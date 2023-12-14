@@ -67,7 +67,7 @@ export class BookFilesController {
     @Param('id') id: string,
     @Body() updateBookFileDto: UpdateBookFileDto,
   ) {
-    return this.bookFilesService.update(+id, updateBookFileDto);
+    // return this.bookFilesService.update(+id, updateBookFileDto);
   }
 
   @ApiOperation({ summary: 'Delete a book file by ID' })

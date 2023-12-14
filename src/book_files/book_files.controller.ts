@@ -51,6 +51,9 @@ export class BookFilesController {
   }
 
   @ApiOperation({ summary: 'Get uploaded file url' })
+  @ApiBody({
+    type: FileUploadDto,
+  })
   @Post('upload-file')
   @HttpCode(HttpStatus.CREATED)
   uploadImage(

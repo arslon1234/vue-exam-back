@@ -96,7 +96,7 @@ export class BookController {
       audio?: any;
     },
   ) {
-    return this.bookService.update(+id, updateBookDto,files);
+    return this.bookService.update(+id, updateBookDto, files);
   }
 
   @ApiOperation({ summary: 'Delete a book by ID' })

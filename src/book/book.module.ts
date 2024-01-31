@@ -3,12 +3,10 @@ import { BookService } from './book.service';
 import { BookController } from './book.controller';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { Book } from './models/book.model';
-import { BookFilesModule } from '../book_files/book_files.module';
-import { FilesModule } from '../files/files.module';
-import { BookFile } from '../book_files/models/book_file.model';
+import { AdminModule } from 'src/admin/admin.module';
 
 @Module({
-  imports: [SequelizeModule.forFeature([Book]), BookFilesModule, FilesModule],
+  imports: [SequelizeModule.forFeature([Book]), AdminModule],
   controllers: [BookController],
   providers: [BookService],
 })

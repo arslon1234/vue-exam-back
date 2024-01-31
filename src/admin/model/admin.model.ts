@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Column, DataType, Model, Table } from 'sequelize-typescript';
+import { Column, DataType, HasMany, Model, Table } from 'sequelize-typescript';
 
 interface AdminAttrs {
   full_name: string;
@@ -32,7 +32,7 @@ export class Admin extends Model<Admin, AdminAttrs> {
     allowNull: false,
     unique: true,
   })
-  login: string;
+  username: string;
 
   @ApiProperty({
     example: 'password',
@@ -43,16 +43,6 @@ export class Admin extends Model<Admin, AdminAttrs> {
     allowNull: false,
   })
   password: string;
-
-  @ApiProperty({
-    example: 'admin',
-    description: 'Admin role',
-  })
-  @Column({
-    type: DataType.STRING,
-    allowNull: false,
-  })
-  role: string;
 
   @ApiProperty({
     example: 'hashed_token',

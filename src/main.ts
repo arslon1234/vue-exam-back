@@ -9,8 +9,8 @@ const start = async () => {
   try {
     const config = new DocumentBuilder()
       .addBearerAuth()
-      .setTitle('E-Book')
-      .setDescription('Project for E-Book')
+      .setTitle('Book')
+      .setDescription('Project for Book')
       .setVersion('1.0.0')
       .addTag('NodeJs, NestJS, Postgress, Sequielize, JWT,  Swagger')
       .build();

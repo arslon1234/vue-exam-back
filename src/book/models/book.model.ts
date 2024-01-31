@@ -9,14 +9,8 @@ import {
   Model,
   Table,
 } from 'sequelize-typescript';
-import { Author } from '../../author/models/author.model';
-import { BookRating } from '../../book_rating/models/book_rating.model';
-import { Saved } from '../../saved/models/saved.model';
-import { BookView } from '../../book_view/models/book_view.model';
-import { BookComment } from '../../book_comment/models/book_comment.model';
-import { BookFile } from '../../book_files/models/book_file.model';
-import { Category } from '../../category/models/category.model';
-import { BookCategory } from '../../book_category/models/book_category.model';
+import { Author } from 'src/author/models/author.model';
+import { Category } from 'src/category/models/category.model';
 
 interface BookAttrs {
   name: string;
@@ -47,24 +41,25 @@ export class Book extends Model<Book, BookAttrs> {
   })
   @ForeignKey(() => Author)
   author_id: number;
+
   @BelongsTo(() => Author)
   author: Author;
 
-  @HasMany(() => BookRating)
-  bookRatings: BookRating[];
+  @ForeignKey(() => Category)
+  janr_id: number;
 
-  @HasMany(() => BookView)
-  bookView: BookView[];
+  @BelongsTo(() => Category)
+  janr: Category[];
 
-  @HasMany(() => BookComment)
-  bookComment: BookComment[];
+  @Column({ type: DataType.INTEGER, allowNull: false })
+  price: number;
 
-  @HasMany(() => BookFile)
-  bookFile: BookFile[];
+  @Column({ type: DataType.STRING, allowNull: false })
+  code: string;
 
-  @BelongsToMany(() => Category, () => BookCategory)
-  category: Category[];
+  @Column({ type: DataType.STRING, allowNull: false })
+  image: string;
 
-  @HasMany(() => Saved)
-  saved: Saved[];
+  @Column({ type: DataType.STRING, allowNull: false })
+  description: string;
 }

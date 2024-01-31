@@ -1,11 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import {
-  IsDateString,
-  IsEmail,
-  IsNotEmpty,
-  IsString,
-  MinLength,
-} from 'class-validator';
+import { IsDateString, IsNotEmpty, IsString, IsUrl } from 'class-validator';
 
 export class CreateAuthorDto {
   @ApiProperty({ example: 'John Doe', description: 'Author full name' })
@@ -13,7 +7,7 @@ export class CreateAuthorDto {
   @IsString()
   full_name: string;
 
-  @ApiProperty({ example: '1990-01-01', description: 'Author birthdate' })
+  @ApiProperty({ example: '1990-12-31', description: 'Author birthdate' })
   @IsNotEmpty()
   @IsDateString()
   birthdate: Date;
@@ -22,4 +16,9 @@ export class CreateAuthorDto {
   @IsNotEmpty()
   @IsString()
   country: string;
+
+  @ApiProperty({ example: 'link to book image', description: 'image' })
+  @IsUrl()
+  @IsNotEmpty()
+  image: string;
 }

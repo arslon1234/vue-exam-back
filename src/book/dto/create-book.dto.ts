@@ -7,6 +7,7 @@ import {
   Length,
   IsPositive,
   Min,
+  IsUrl,
 } from 'class-validator';
 
 export class CreateBookDto {
@@ -16,47 +17,32 @@ export class CreateBookDto {
   name: string;
 
   @ApiProperty({ example: 1, description: 'Author ID' })
-  @IsNotEmpty()
+  @IsNumber()
+  @Min(1)
   author_id: number;
 
-  @ApiProperty({ example: 'Chapter 1', description: 'File name' })
-  @IsNotEmpty()
+  @ApiProperty({ example: 10000, description: 'Book price' })
+  @IsNumber()
+  @Min(1)
+  price: number;
+
+  @ApiProperty({ example: '10000', description: 'Book code' })
   @IsString()
-  second_name: string;
-
-  @ApiProperty({ example: 1, description: 'Part number' })
   @IsNotEmpty()
-  part: number;
+  code: string;
 
-  @ApiProperty({ example: 'Introduction', description: 'File description' })
+  @ApiProperty({ example: 1, description: 'Author ID' })
+  @IsNumber()
+  @Min(1)
+  janr_id: number;
+
+  @ApiProperty({ example: 'link to book image', description: 'image' })
+  @IsUrl()
   @IsNotEmpty()
-  @IsString()
-  @Length(1, 355)
-  description: string;
-
-  @ApiProperty({ example: 300, description: 'Number of pages' })
-  @IsNotEmpty()
-  pages: number;
-
-  @ApiProperty({ example: 2022, description: 'Year of publication' })
-  @IsNotEmpty()
-  publish_year: number;
-
-  @ApiProperty({ example: '/src/photo', description: 'image' })
   image: string;
 
-  @ApiProperty({ example: '/http://123.23.4.32/pdf', description: 'pdf' })
-  pdf_file: string;
-
-  @ApiProperty({ example: '/http://123.23.4.32/epub', description: 'epub' })
-  epub_file: string;
-
-  @ApiProperty({ example: '/http://123.23.4.32/doc', description: 'doc' })
-  doc_file: string;
-
-  @ApiProperty({ example: '/http://123.23.4.32/docx', description: 'docx' })
-  docx_file: string;
-
-  @ApiProperty({ example: '/http://123.23.4.32/audio', description: 'audio' })
-  audio_file: string;
+  @ApiProperty({ example: 'Introduction', description: 'Book description' })
+  @IsString()
+  @IsNotEmpty()
+  description: string;
 }

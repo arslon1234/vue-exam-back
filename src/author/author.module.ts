@@ -3,10 +3,10 @@ import { AuthorService } from './author.service';
 import { AuthorController } from './author.controller';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { Author } from './models/author.model';
-import { FilesModule } from '../files/files.module';
+import { AdminModule } from 'src/admin/admin.module';
 
 @Module({
-  imports: [SequelizeModule.forFeature([Author]), FilesModule],
+  imports: [SequelizeModule.forFeature([Author]), AdminModule],
   controllers: [AuthorController],
   providers: [AuthorService],
 })

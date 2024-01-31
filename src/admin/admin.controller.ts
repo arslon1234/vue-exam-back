@@ -10,6 +10,7 @@ import {
   Req,
   UseInterceptors,
   UploadedFile,
+  UseGuards,
 } from '@nestjs/common';
 import { AdminService } from './admin.service';
 import { CreateAdminDto } from './dto/create-admin.dto';
@@ -19,24 +20,23 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBearerAuth, ApiProperty } from '@nestjs/swagger';
 import { LoginAdminDto } from './dto/login-admin.dto';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
+import { AuthGuard } from 'src/guards/auth.guard';
 
-@ApiTags('admin')
-@Controller('admin')
-@ApiBearerAuth()
+@ApiTags('Auth')
+@Controller('auth')
 export class AdminController {
   constructor(private readonly adminService: AdminService) {}
 
-  @ApiOperation({ summary: 'Create a new admin' })
-  @Post()
+  @ApiOperation({ summary: 'Signup' })
+  @Post('signup')
   create(
     @Body() createAdminDto: CreateAdminDto,
     @Res({ passthrough: true }) res: Response,
-    @Req() req: Request,
   ) {
-    return this.adminService.create(createAdminDto, res, req);
+    return this.adminService.create(createAdminDto, res);
   }
 
-  @ApiOperation({ summary: 'Sign in an admin' })
+  @ApiOperation({ summary: 'Sign in' })
   @Post('signin')
   signin(
     @Body() loginAdminDto: LoginAdminDto,
@@ -45,27 +45,14 @@ export class AdminController {
     return this.adminService.signin(loginAdminDto, res);
   }
 
-  @ApiOperation({ summary: 'Get all admins' })
-  @Get()
-  findAll() {
-    return this.adminService.findAll();
-  }
-
-  @ApiOperation({ summary: 'Get an admin by ID' })
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.adminService.findOne(+id);
-  }
-
-  @ApiOperation({ summary: 'Update an admin by ID' })
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAdminDto: UpdateAdminDto) {
-    return this.adminService.update(+id, updateAdminDto);
-  }
-
-  @ApiOperation({ summary: 'Delete an admin by ID' })
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.adminService.remove(+id);
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard)
+  @ApiOperation({ summary: 'logout' })
+  @Post('logout')
+  logout(
+    @Req() request: Request,
+    @Res({ passthrough: true }) response: Response,
+  ) {
+    return this.adminService.logout(request, response);
   }
 }

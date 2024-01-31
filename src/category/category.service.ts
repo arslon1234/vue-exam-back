@@ -3,11 +3,13 @@ import {
   Injectable,
   InternalServerErrorException,
   NotFoundException,
+  UseGuards,
 } from '@nestjs/common';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 import { InjectModel } from '@nestjs/sequelize';
 import { Category } from './models/category.model';
+import { AuthGuard } from 'src/guards/auth.guard';
 
 @Injectable()
 export class CategoryService {
@@ -15,10 +17,11 @@ export class CategoryService {
     @InjectModel(Category)
     private categoryRepo: typeof Category,
   ) {}
+
   async create(createCategoryDto: CreateCategoryDto) {
     const check = await this.categoryRepo.findOne({
       where: {
-        category_name: createCategoryDto.category_name,
+        name: createCategoryDto.name,
       },
     });
     if (check) {
@@ -33,7 +36,7 @@ export class CategoryService {
   }
 
   async findAll(): Promise<Category[]> {
-    return this.categoryRepo.findAll({});
+    return this.categoryRepo.findAll();
   }
 
   async findOne(id: number): Promise<Category> {
@@ -48,32 +51,23 @@ export class CategoryService {
     return category;
   }
 
-  async update(
-    id: number,
-    updateCategoryDto: UpdateCategoryDto,
-  ): Promise<[number, Category[]]> {
+  async update(id: number, updateCategoryDto: UpdateCategoryDto) {
     Object.defineProperties(updateCategoryDto, {
       id: { enumerable: false },
     });
-    const category = await this.categoryRepo.findByPk(id);
-    if (!category) {
-      throw new NotFoundException('Category not found');
-    }
+
     const updatedSaved = await this.categoryRepo.update(updateCategoryDto, {
       where: { id },
-      returning: true,
     });
+    console.log(updatedSaved);
     return updatedSaved;
   }
 
   async remove(id: number) {
-    const category = await this.categoryRepo.findByPk(id);
-    if (!category) {
-      throw new NotFoundException('Not found');
-    }
     const deletedSaved = await this.categoryRepo.destroy({
       where: { id },
     });
+    console.log(deletedSaved);
     return deletedSaved;
   }
 }

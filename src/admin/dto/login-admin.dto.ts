@@ -9,15 +9,15 @@ import {
 
 export class LoginAdminDto {
   @ApiProperty({
-    example: 'jhonedoe',
-    description: 'Admin login ',
+    example: 'john_doe',
+    description: 'Admin username ',
   })
   @IsNotEmpty()
   @IsString()
-  login: string;
+  username: string;
 
   @ApiProperty({
-    example: 'password',
+    example: 'password123',
     description: 'Admin password',
   })
   @IsNotEmpty()

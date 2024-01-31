@@ -10,16 +10,14 @@ import { InjectModel } from '@nestjs/sequelize';
 import { Author } from './models/author.model';
 import { FilesService } from '../files/files.service';
 import { Book } from '../book/models/book.model';
-import { BookFile } from '../book_files/models/book_file.model';
 
 @Injectable()
 export class AuthorService {
   constructor(
     @InjectModel(Author)
     private authorRepo: typeof Author,
-    private fileService: FilesService,
   ) {}
-  async create(createAuthorDto: CreateAuthorDto, image: any) {
+  async create(createAuthorDto: CreateAuthorDto) {
     const check = await this.authorRepo.findOne({
       where: { full_name: createAuthorDto.full_name },
     });
@@ -29,11 +27,7 @@ export class AuthorService {
       );
     }
     try {
-      const fileName = await this.fileService.createFile(image);
-      const author = await this.authorRepo.create({
-        ...createAuthorDto,
-        image: fileName,
-      });
+      const author = await this.authorRepo.create(createAuthorDto);
       if (!author) {
         throw new BadRequestException('Error while creating');
       }
@@ -44,7 +38,7 @@ export class AuthorService {
   }
 
   findAll(): Promise<Author[]> {
-    return this.authorRepo.findAll({ include: { all: true } });
+    return this.authorRepo.findAll();
   }
 
   async findOne(id: number): Promise<Author> {
@@ -58,12 +52,6 @@ export class AuthorService {
         {
           model: Book,
           attributes: { exclude: ['createdAt', 'updatedAt'] },
-          include: [
-            {
-              model: BookFile,
-              attributes: { exclude: ['createdAt', 'updatedAt'] },
-            },
-          ],
         },
       ],
     });
@@ -96,6 +84,6 @@ export class AuthorService {
     const deletedAuthor = await this.authorRepo.destroy({
       where: { id },
     });
-    return deletedAuthor;
+    return { message: 'author is deleted' };
   }
 }

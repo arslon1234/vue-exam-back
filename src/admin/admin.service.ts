@@ -20,20 +20,19 @@ export class AdminService {
     private adminRepository: typeof Admin,
     private readonly jwtService: JwtService,
   ) {}
-  async create(createAdminDto: CreateAdminDto, res: Response, req: Request) {
+  async create(createAdminDto: CreateAdminDto, res: Response) {
     const admin = await this.adminRepository.findOne({
-      where: { login: createAdminDto.login },
+      where: { username: createAdminDto.username },
     });
     if (admin) {
       throw new BadRequestException(
-        'Admin with this username is already exists',
+        'User with this username is already exists',
       );
     }
 
     const hashed_password = await bcrypt.hash(createAdminDto.password, 7);
     const newAdmin = await this.adminRepository.create({
       ...createAdminDto,
-      role: 'admin',
       password: hashed_password,
     });
 
@@ -50,8 +49,12 @@ export class AdminService {
     });
 
     const response = {
-      message: 'Admin registred',
-      admin: updatedAdmin,
+      message: 'successfully registered',
+      admin: {
+        id: updatedAdmin.id,
+        full_name: updatedAdmin.full_name,
+        username: updatedAdmin.username,
+      },
       tokens,
     };
 
@@ -60,7 +63,7 @@ export class AdminService {
 
   async signin(loginAdminDto: LoginAdminDto, res: Response) {
     const admin = await this.adminRepository.findOne({
-      where: { login: loginAdminDto.login },
+      where: { username: loginAdminDto.username },
     });
     if (!admin) {
       throw new BadRequestException('username or password is incorrect');
@@ -83,9 +86,14 @@ export class AdminService {
       maxAge: 15 * 24 * 60 * 60 * 1000,
       httpOnly: true,
     });
+
     const response = {
-      message: 'Admin logged in',
-      admin: updatedAdmin,
+      message: 'logged in',
+      admin: {
+        id: updatedAdmin.id,
+        full_name: updatedAdmin.full_name,
+        username: updatedAdmin.username,
+      },
       tokens,
     };
     return response;
@@ -94,7 +102,6 @@ export class AdminService {
   async getTokens(admin: Admin) {
     const jwtPayload = {
       id: admin.id,
-      role: 'admin',
     };
     const [accessToken, refreshToken] = await Promise.all([
       this.jwtService.signAsync(jwtPayload, {
@@ -129,29 +136,16 @@ export class AdminService {
     return updatedAdmin[1][0];
   }
 
-  async findAll(): Promise<Admin[]> {
-    const admins = await this.adminRepository.findAll({
-      include: { all: true },
-    });
-    return admins;
-  }
-
   async findOne(id: number): Promise<Admin> {
     const check = await this.adminRepository.findByPk(id);
     if (!check) {
       throw new NotFoundException('Admin not found');
     }
-    const admin = await this.adminRepository.findOne({
-      where: { id },
-      include: { all: true },
-    });
-    return admin;
+
+    return check;
   }
 
-  async update(
-    id: number,
-    updateAdminDto: UpdateAdminDto,
-  ): Promise<[number, Admin[]]> {
+  async update(id: number, updateAdminDto: UpdateAdminDto) {
     Object.defineProperties(updateAdminDto, {
       hashed_token: { enumerable: false },
       role: { enumerable: false },
@@ -161,21 +155,25 @@ export class AdminService {
     if (!admin) {
       throw new NotFoundException('Admin not found');
     }
-    const updatedAdmin = await this.adminRepository.update(updateAdminDto, {
+    await this.adminRepository.update(updateAdminDto, {
       where: { id },
-      returning: true,
     });
-    return updatedAdmin;
+
+    return { message: 'successfully updated' };
   }
 
-  async remove(id: number) {
-    const admin = await this.adminRepository.findByPk(id);
-    if (!admin) {
-      throw new NotFoundException('Admin not found');
-    }
-    const deletedAdmin = await this.adminRepository.destroy({
-      where: { id },
-    });
-    return deletedAdmin;
+  async logout(req: any, res: Response) {
+    const user = req?.user;
+    await this.adminRepository.update(
+      { hashed_token: null },
+      {
+        where: {
+          id: user?.id,
+        },
+      },
+    );
+    res.clearCookie('refresh_token');
+
+    return { message: 'Logged out' };
   }
 }

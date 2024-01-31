@@ -6,57 +6,26 @@ import {
   Patch,
   Param,
   Delete,
-  UploadedFiles,
-  UseInterceptors,
-  Res,
+  UseGuards,
 } from '@nestjs/common';
 import { BookService } from './book.service';
 import { CreateBookDto } from './dto/create-book.dto';
 import { UpdateBookDto } from './dto/update-book.dto';
 import { ApiBearerAuth } from '@nestjs/swagger';
-import {
-  FileFieldsInterceptor,
-  FilesInterceptor,
-} from '@nestjs/platform-express';
-import { BookFilesService } from '../book_files/book_files.service';
 import { ApiTags, ApiOperation, ApiConsumes, ApiBody } from '@nestjs/swagger';
+import { AuthGuard } from 'src/guards/auth.guard';
 
 @ApiTags('books')
 @Controller('book')
-@ApiBearerAuth()
 export class BookController {
   constructor(private readonly bookService: BookService) {}
 
-  @ApiOperation({ summary: 'Create a new book with files' })
-  @ApiConsumes('multipart/form-data')
-  @ApiBody({
-    description: 'Book data with image, pdf, doc, docx, epub, and audio files',
-    type: CreateBookDto,
-  })
-  @Post()
-  @UseInterceptors(
-    FileFieldsInterceptor([
-      { name: 'image', maxCount: 1 },
-      { name: 'pdf', maxCount: 1 },
-      { name: 'doc', maxCount: 1 },
-      { name: 'docx', maxCount: 1 },
-      { name: 'epub', maxCount: 1 },
-      { name: 'audio', maxCount: 1 },
-    ]),
-  )
-  create(
-    @Body() createBookDto: CreateBookDto,
-    @UploadedFiles()
-    files: {
-      image?: any;
-      pdf?: any;
-      doc?: any;
-      docx?: any;
-      epub?: any;
-      audio?: any;
-    },
-  ) {
-    return this.bookService.create(createBookDto, files);
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard)
+  @ApiOperation({ summary: 'Create a new book' })
+  @Post('create')
+  create(@Body() createBookDto: CreateBookDto) {
+    return this.bookService.create(createBookDto);
   }
 
   @ApiOperation({ summary: 'Get all books' })
@@ -71,12 +40,16 @@ export class BookController {
     return this.bookService.findOne(+id);
   }
 
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard)
   @ApiOperation({ summary: 'Update a book by ID' })
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateBookDto: UpdateBookDto) {
     return this.bookService.update(+id, updateBookDto);
   }
 
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard)
   @ApiOperation({ summary: 'Delete a book by ID' })
   @Delete(':id')
   remove(@Param('id') id: string) {

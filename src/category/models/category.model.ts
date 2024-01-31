@@ -1,19 +1,16 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
-  BelongsToMany,
+  BelongsTo,
   Column,
   DataType,
-  ForeignKey,
+  HasMany,
   Model,
   Table,
 } from 'sequelize-typescript';
-import { Book } from '../../book/models/book.model';
-import { BookCategory } from '../../book_category/models/book_category.model';
+import { Book } from 'src/book/models/book.model';
 
 interface CategoryAttrs {
-  category_name: string;
-  parent_category_id: number;
-  status: boolean;
+  name: string;
 }
 
 @Table({ tableName: 'categories' })
@@ -31,21 +28,8 @@ export class Category extends Model<Category, CategoryAttrs> {
     type: DataType.STRING,
     allowNull: false,
   })
-  category_name: string;
+  name: string;
 
-  @ApiProperty({ example: 1, description: 'Parent category ID' })
-  @Column({
-    type: DataType.INTEGER,
-  })
-  parent_category_id: number;
-
-  @ApiProperty({ example: true, description: 'Category status' })
-  @Column({
-    type: DataType.BOOLEAN,
-    allowNull: false,
-  })
-  status: boolean;
-
-  @BelongsToMany(() => Book, () => BookCategory)
-  book: Book[];
+  @HasMany(() => Book)
+  books: Book[];
 }

@@ -7,10 +7,10 @@ export class CreateAdminDto {
   @IsString()
   full_name: string;
 
-  @ApiProperty({ example: 'john_doe', description: 'Admin login/username' })
+  @ApiProperty({ example: 'john_doe', description: 'Admin username' })
   @IsNotEmpty()
   @IsString()
-  login: string;
+  username: string;
 
   @ApiProperty({
     example: 'password123',

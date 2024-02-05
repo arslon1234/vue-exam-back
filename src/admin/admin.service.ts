@@ -20,6 +20,7 @@ export class AdminService {
     private adminRepository: typeof Admin,
     private readonly jwtService: JwtService,
   ) {}
+
   async create(createAdminDto: CreateAdminDto, res: Response) {
     const admin = await this.adminRepository.findOne({
       where: { username: createAdminDto.username },

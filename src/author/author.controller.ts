@@ -11,6 +11,7 @@ import {
   UploadedFile,
   UseInterceptors,
   UseGuards,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { AuthorService } from './author.service';
 import { CreateAuthorDto } from './dto/create-author.dto';
@@ -42,7 +43,7 @@ export class AuthorController {
 
   @ApiOperation({ summary: 'Get an author by ID' })
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id', ParseIntPipe) id: number) {
     return this.authorService.findOne(+id);
   }
 
@@ -50,7 +51,10 @@ export class AuthorController {
   @UseGuards(AuthGuard)
   @ApiOperation({ summary: 'Update an author by ID' })
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAuthorDto: UpdateAuthorDto) {
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateAuthorDto: UpdateAuthorDto,
+  ) {
     return this.authorService.update(+id, updateAuthorDto);
   }
 
@@ -58,7 +62,7 @@ export class AuthorController {
   @UseGuards(AuthGuard)
   @ApiOperation({ summary: 'Delete an author by ID' })
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  remove(@Param('id', ParseIntPipe) id: number) {
     return this.authorService.remove(+id);
   }
 }

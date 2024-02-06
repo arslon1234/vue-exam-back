@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   UseGuards,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { CategoryService } from './category.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
@@ -41,7 +42,7 @@ export class CategoryController {
   @ApiOperation({ summary: 'Get a category by ID' })
   @ApiParam({ name: 'id', type: String, description: 'Category ID' })
   @Get('get/:id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id', ParseIntPipe) id: number) {
     return this.categoryService.findOne(+id);
   }
 
@@ -51,7 +52,7 @@ export class CategoryController {
   @ApiParam({ name: 'id', type: String, description: 'Category ID' })
   @Patch('update/:id')
   update(
-    @Param('id') id: string,
+    @Param('id', ParseIntPipe) id: number,
     @Body() updateCategoryDto: UpdateCategoryDto,
   ) {
     return this.categoryService.update(+id, updateCategoryDto);
@@ -62,7 +63,7 @@ export class CategoryController {
   @ApiOperation({ summary: 'Delete a category by ID' })
   @ApiParam({ name: 'id', type: String, description: 'Category ID' })
   @Delete('delete/:id')
-  remove(@Param('id') id: string) {
+  remove(@Param('id', ParseIntPipe) id: number) {
     return this.categoryService.remove(+id);
   }
 }

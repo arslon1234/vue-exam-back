@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   UseGuards,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { BookService } from './book.service';
 import { CreateBookDto } from './dto/create-book.dto';
@@ -36,7 +37,7 @@ export class BookController {
 
   @ApiOperation({ summary: 'Get a book by ID' })
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id', ParseIntPipe) id: number) {
     return this.bookService.findOne(+id);
   }
 
@@ -44,7 +45,10 @@ export class BookController {
   @UseGuards(AuthGuard)
   @ApiOperation({ summary: 'Update a book by ID' })
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateBookDto: UpdateBookDto) {
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateBookDto: UpdateBookDto,
+  ) {
     return this.bookService.update(+id, updateBookDto);
   }
 
@@ -52,7 +56,7 @@ export class BookController {
   @UseGuards(AuthGuard)
   @ApiOperation({ summary: 'Delete a book by ID' })
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  remove(@Param('id', ParseIntPipe) id: number) {
     return this.bookService.remove(+id);
   }
 }

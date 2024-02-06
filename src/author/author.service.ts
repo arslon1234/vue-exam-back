@@ -47,7 +47,7 @@ export class AuthorService {
       throw new NotFoundException('Author not found');
     }
     const author = await this.authorRepo.findOne({
-      where: { id },
+      where: { id: id },
       include: [
         {
           model: Book,
@@ -70,7 +70,7 @@ export class AuthorService {
       throw new NotFoundException('Author not found');
     }
     const updatedAuthor = await this.authorRepo.update(updateAuthorDto, {
-      where: { id },
+      where: { id: id },
       returning: true,
     });
     return updatedAuthor;
@@ -82,7 +82,7 @@ export class AuthorService {
       throw new NotFoundException('Author not found');
     }
     const deletedAuthor = await this.authorRepo.destroy({
-      where: { id },
+      where: { id: id },
     });
     return { message: 'author is deleted' };
   }

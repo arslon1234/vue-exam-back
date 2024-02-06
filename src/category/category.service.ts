@@ -45,7 +45,7 @@ export class CategoryService {
       throw new NotFoundException('Not found');
     }
     const category = await this.categoryRepo.findOne({
-      where: { id },
+      where: { id: id },
       include: { all: true },
     });
     return category;
@@ -57,7 +57,7 @@ export class CategoryService {
     });
 
     const updatedSaved = await this.categoryRepo.update(updateCategoryDto, {
-      where: { id },
+      where: { id: id },
     });
     console.log(updatedSaved);
     return updatedSaved;
@@ -65,7 +65,7 @@ export class CategoryService {
 
   async remove(id: number) {
     const deletedSaved = await this.categoryRepo.destroy({
-      where: { id },
+      where: { id: id },
     });
     console.log(deletedSaved);
     return deletedSaved;

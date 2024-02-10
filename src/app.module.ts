@@ -11,6 +11,8 @@ import { AuthorModule } from './author/author.module';
 import { BookModule } from './book/book.module';
 import { CategoryModule } from './category/category.module';
 import { FilesModule } from './files/files.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { resolve } from 'path';
 
 @Module({
   imports: [
@@ -28,6 +30,11 @@ import { FilesModule } from './files/files.module';
       autoLoadModels: true,
       logging: false,
       models: [Admin, Author, Book, Category],
+    }),
+    ServeStaticModule.forRoot({
+      rootPath: resolve(__dirname, '../', 'media'),
+      serveRoot: '/api/media',
+      exclude: ['/api/media/index.html'],
     }),
     AdminModule,
     AuthorModule,
